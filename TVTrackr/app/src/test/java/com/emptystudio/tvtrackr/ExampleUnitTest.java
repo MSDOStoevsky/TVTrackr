@@ -1,4 +1,4 @@
-package com.mtutsp.tvtrackr;
+package com.emptystudio.tvtrackr;
 
 import org.junit.Test;
 

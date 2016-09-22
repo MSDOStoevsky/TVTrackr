@@ -1,4 +1,4 @@
-package com.mtutsp.tvtrackr;
+package com.emptystudio.tvtrackr;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
