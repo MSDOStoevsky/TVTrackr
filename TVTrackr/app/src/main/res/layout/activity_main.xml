@@ -25,4 +25,5 @@
         android:layout_centerHorizontal="true"
         android:nestedScrollingEnabled="false"
         android:onClick="displayJSON" />
+
 </RelativeLayout>
