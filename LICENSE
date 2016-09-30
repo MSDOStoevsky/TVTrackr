@@ -1,4 +1,23 @@
-                    GNU GENERAL PUBLIC LICENSE
+TVTrackr is an android applicaiton that allows users to track
+favorited tv shows and recieve phone notifications on release,
+as well as keep a running schedule to view when the next
+episodes will be coming out, and at what time.
+
+Copyright (C) 2016 "Pick Number 3 M'Lord"
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+    
+    
+GPLv3
+                      GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
