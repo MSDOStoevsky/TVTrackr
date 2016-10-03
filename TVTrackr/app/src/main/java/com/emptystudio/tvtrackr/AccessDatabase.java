@@ -37,34 +37,30 @@ public class AccessDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.beginTransaction();
 
         // SQL statement to create book table
-        String CREATE_TABLE = "CREATE TABLE user_favorites ( " +
+        String CREATE_TABLE = "CREATE TABLE "+TABLE_FAVORITES+" ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, "+
-                "author TEXT, "+
-                "genre TEXT, "+
+                "genres TEXT, "+
                 "schedule TEXT, "+
                 "image TEXT);";
 
         // create books table
         db.execSQL(CREATE_TABLE);
-        db.endTransaction();
-
         Log.d("onCreate", "CREATED");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        Log.d("onUpgrade", "UPGRADED");
+        Log.w(AccessDatabase.class.getName(),
+                "Upgrading database from version " + oldVersion + " to "
+                        + newVersion + ", which will destroy all old data");
+        db.execSQL("DROP TABLE IF EXISTS user_favorites");
+        onCreate(db);
     }
 
     public void addFavorite(Show show){
-
-        //for logging
-        Log.d("addFavorite", show.toString());
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
@@ -74,7 +70,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
         values.put(KEY_GENRES, show.getGenres());
         values.put(KEY_SCHEDULE, show.getSchedule());
         values.put(KEY_IMAGE, show.getImage());
-
+        Log.d("addFavorite", values.toString());
         // insert
         db.insert(TABLE_FAVORITES,
                 null,
@@ -85,35 +81,41 @@ public class AccessDatabase extends SQLiteOpenHelper {
 
     }
 
+    public void removeFavorite(Integer id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        db.delete(TABLE_FAVORITES,
+            "id = ? ",
+            new String[] { Integer.toString(id) });
+        db.endTransaction();
+        db.close();
+    }
+
     public List<Show> getFavorites(){
         List<Show> favs = new ArrayList<Show>();
 
-        // 1. build the query
-        String query = "SELECT  * FROM " + TABLE_FAVORITES;
+        String query = "SELECT * FROM " + TABLE_FAVORITES;
 
-        // 2. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build book and add it to list
         Show show = null;
         if (cursor.moveToFirst()) {
+
+            Log.d("ENTERED", "ASDASD");
             do {
                 show = new Show();
                 //show.setId(Integer.parseInt(cursor.getString(0)));
                 show.setName(cursor.getString(1));
-                show.setGenres((ArrayList<String>) Arrays.asList(cursor.getString(2).split("|")));
-                show.setSchedule(cursor.getString(3));
-                show.setImage(cursor.getString(4));
+                //show.setGenres((ArrayList<String>) Arrays.asList(cursor.getString(2).split("|")));
+                //show.setSchedule(cursor.getString(3));
+                //show.setImage(cursor.getString(4));
 
                 // Add book to books
                 favs.add(show);
             } while (cursor.moveToNext());
         }
-
-        Log.d("getFavorites()", favs.toString());
-
-        // return books
         return favs;
     }
 }
