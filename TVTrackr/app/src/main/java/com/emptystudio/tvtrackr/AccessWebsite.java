@@ -5,11 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.BufferedReader;
@@ -40,7 +37,8 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
 
     @Override
     protected JSONArray doInBackground(String... params) {
-        JSONObject ret = null;
+
+        JSONArray ret = null;
 
         try{
             InetAddress.getByName("api.tvmaze.com").isReachable(3);
