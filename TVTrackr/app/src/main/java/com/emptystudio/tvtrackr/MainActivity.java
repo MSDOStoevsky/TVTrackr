@@ -25,14 +25,19 @@ public class MainActivity extends AppCompatActivity {
         /* database entry tests */
         ArrayList<String> generes = new ArrayList<>();
         generes.add(0, "Comedy");
-
-        db.addFavorite(new Show("Hey Arnold", generes, "", ""));
-
+        //Show heyarnold = ;
+        //Log.d("CREATED?", heyarnold.toString());
+        db.addFavorite(new Show("Hey Arnold", generes, "something", "url"));
+        Log.d("WORKED?", Integer.toString(db.numberOfRows()));
         List<Show> favs = db.getFavorites();
         Log.d("Returned", favs.toString());
+        db.clearFavorites();
+        Log.d("WORKED?", Integer.toString(db.numberOfRows()));
+
+        db.close();
 
         if(!isNetworkAvailable()){
-            Toast.makeText(MainActivity.this, "Could not connect to the internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "There was an error trying to connect to the internet!", Toast.LENGTH_SHORT).show();
         }
     }
 
