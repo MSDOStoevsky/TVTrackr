@@ -63,21 +63,17 @@ public class AccessDatabase extends SQLiteOpenHelper {
     public void addFavorite(Show show){
 
         SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
         db.beginTransaction();
 
-        ContentValues values = new ContentValues();
         values.put(KEY_NAME, show.getName());
         values.put(KEY_GENRES, show.getGenres());
         values.put(KEY_SCHEDULE, show.getSchedule());
         values.put(KEY_IMAGE, show.getImage());
-        Log.d("addFavorite", values.toString());
         // insert
-        db.insert(TABLE_FAVORITES,
-                null,
-                values);
+        db.insert(TABLE_FAVORITES, null, values);
 
         db.endTransaction();
-        db.close();
 
     }
 
@@ -101,9 +97,9 @@ public class AccessDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         Show show = null;
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
 
-            Log.d("ENTERED", "ASDASD");
+            Log.d("ENTERED", cursor.getString(1));
             do {
                 show = new Show();
                 //show.setId(Integer.parseInt(cursor.getString(0)));
@@ -115,6 +111,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
                 // Add book to books
                 favs.add(show);
             } while (cursor.moveToNext());
+            cursor.close();
         }
         return favs;
     }
