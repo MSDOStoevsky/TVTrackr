@@ -59,6 +59,10 @@ public class Show {
         this.schedule = schedule;
     }
 
+    @Override
+    public String toString(){
+        return this.name;
+    }
 
     /*
         Collection to String over given delimiter
