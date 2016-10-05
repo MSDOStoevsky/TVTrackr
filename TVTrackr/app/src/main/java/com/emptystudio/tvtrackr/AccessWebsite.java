@@ -5,11 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.BufferedReader;
@@ -28,7 +25,7 @@ import java.net.UnknownHostException;
  * @param2 No clue... maybe the progress fn returns this?
  * @param3 Object that doInBackground returns
  */
-public class AccessWebsite extends AsyncTask<String, Void, JSONObject>{
+public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
 
     private Context context; //this allows this thread to update the UI thread
     private View view; //this allows this thread to update the View Elements
@@ -39,8 +36,9 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONObject>{
     }
 
     @Override
-    protected JSONObject doInBackground(String... params) {
-        JSONObject ret = null;
+    protected JSONArray doInBackground(String... params) {
+
+        JSONArray ret = null;
 
         try{
             InetAddress.getByName("api.tvmaze.com").isReachable(3);
@@ -51,7 +49,7 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONObject>{
         }
         finally{
             try {
-                URL url = new URL("http://api.tvmaze.com/singlesearch/shows?q=" + params[0]);
+                URL url = new URL("http://api.tvmaze.com/search/shows?q=" + params[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 try {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -60,7 +58,7 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONObject>{
                         builder.append(line).append("\n");
                     }
                     JSONTokener tokener = new JSONTokener(builder.toString());
-                    ret = new JSONObject(tokener);
+                    ret = new JSONArray(tokener);
                     bufferedReader.close();
                 } finally {
                     urlConnection.disconnect();
@@ -80,7 +78,7 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONObject>{
         Using the built in JSON libraries will allow the JSONArray to be
         broken up to display the proper information.
      */
-    protected void onPostExecute(JSONObject result) {
+    protected void onPostExecute(JSONArray result) {
 
         TextView text = (TextView) view.findViewById(R.id.text);
         text.setText(result.toString());

@@ -18,7 +18,6 @@ public class Show {
     public Show(){}
 
     public Show(String name, ArrayList<String> genres, String schedule, String image){
-        super();
         this.name = name;
         this.genres = genres;
         this.schedule = schedule;
