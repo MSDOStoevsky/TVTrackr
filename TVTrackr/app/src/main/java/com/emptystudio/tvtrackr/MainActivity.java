@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,12 +21,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         AccessDatabase db = new AccessDatabase(this);
+
+        /* database entry tests */
         ArrayList<String> generes = new ArrayList<>();
         generes.add(0, "Comedy");
 
         db.addFavorite(new Show("Hey Arnold", generes, "", ""));
-        db.getFavorites();
-        
+
+        List<Show> favs = db.getFavorites();
+        Log.d("Returned", favs.toString());
+
         if(!isNetworkAvailable()){
             Toast.makeText(MainActivity.this, "Could not connect to the internet!", Toast.LENGTH_SHORT).show();
         }

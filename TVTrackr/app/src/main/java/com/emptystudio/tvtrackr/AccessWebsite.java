@@ -40,7 +40,7 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
 
     @Override
     protected JSONArray doInBackground(String... params) {
-        JSONObject ret = null;
+        JSONArray ret = null;
 
         try{
             InetAddress.getByName("api.tvmaze.com").isReachable(3);
