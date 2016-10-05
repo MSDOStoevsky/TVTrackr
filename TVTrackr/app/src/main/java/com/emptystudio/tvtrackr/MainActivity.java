@@ -10,10 +10,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList<Show> search = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,21 @@ public class MainActivity extends AppCompatActivity {
         // if no network is available networkInfo will be null
         // otherwise check if we are connected
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void search(JSONArray jayson) {
+        if (jayson != null && jayson.length() != 0) {
+            for (int i = 0; i < jayson.length(); i++) {
+                try {
+                    JSONObject ob = jayson.getJSONObject(i);
+                    JSONObject show = ob.getJSONObject("show");
+                    ArrayList<String> genres = new ArrayList<String>(Arrays.asList(show.getString("show").split("\\s*,\\s*")));
+                    Show current = new Show(show.getString("name"), genres, show.getString("schedule"), show.getString("image"));
+                } catch (JSONException e) {
+                    Toast.makeText(MainActivity.this, "That's not supposed to happen.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     /*
