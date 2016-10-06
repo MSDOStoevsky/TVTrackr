@@ -6,7 +6,10 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText text_box;
+    private Button search_button;
     private AccessDatabase db;
     private ArrayList<Show> search = new ArrayList<>();
 
@@ -30,11 +35,23 @@ public class MainActivity extends AppCompatActivity {
 
         db = new AccessDatabase(this);
 
-        /* database entry tests */
+        search_button = (Button)findViewById(R.id.search_button);
+        text_box   = (EditText)findViewById(R.id.text_box);
+
+        search_button.setOnClickListener(
+            new View.OnClickListener()
+            {
+                public void onClick(View view)
+                {
+                    displayShows(text_box.getText().toString());
+                }
+            }
+        );
+        /* database entry tests *
         ArrayList<String> generes = new ArrayList<>();
         generes.add(0, "Comedy");
         db.addFavorite(new Show("Hey Arnold", generes, "something", "url"));
-
+        /**/
         if(!isNetworkAvailable()){
             Toast.makeText(MainActivity.this, "There was an error trying to connect to the internet!", Toast.LENGTH_SHORT).show();
         }
@@ -46,6 +63,22 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    //------ button functions ------//
+
+    public void displayShows(String showname){
+        new AccessWebsite(getBaseContext(), findViewById(R.id.root)).execute(showname);//calls the doInBackground
+    }
+
+    public void displayFavorites(View v){
+
+        List<Show> favs = db.getFavorites();
+        TextView text = (TextView) findViewById(R.id.text);
+        text.setText(favs.toString());
+    }
+
+
+    //------ augmenters ------//
+
     public boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
@@ -54,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         return networkInfo != null && networkInfo.isConnected();
     }
 
+    /*
+        parses json array from AccessWebsite
+     */
     private void search(JSONArray jayson) {
         if (jayson != null && jayson.length() != 0) {
             for (int i = 0; i < jayson.length(); i++) {
@@ -69,22 +105,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-        This function is a test
-     */
-    public void displayFav(View v){
-
-        List<Show> favs = db.getFavorites();
-        TextView text = (TextView) findViewById(R.id.text);
-        text.setText(favs.toString());
-    }
-
-    /*
-        This function is a test that gets called by the button onclick
-        event, and will probably be thrown out soon so that the search bar
-        can make a call to the AccessWebsite task.
-     */
-    public void displayJSON(View v){
-        new AccessWebsite(getBaseContext(), findViewById(R.id.root)).execute("cory+in+the+house");//calls the doInBackground
-    }
 }
