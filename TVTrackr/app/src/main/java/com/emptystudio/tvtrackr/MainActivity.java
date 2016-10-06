@@ -8,37 +8,39 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AccessDatabase db;
+    ArrayList<Show> search = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new AccessDatabase(this);
+        AccessDatabase db = new AccessDatabase(this);
 
         /* database entry tests */
         ArrayList<String> generes = new ArrayList<>();
         generes.add(0, "Comedy");
-        db.addFavorite(new Show("Hey Arnold", generes, "something", "url"));
+
+        db.addFavorite(new Show("Hey Arnold", generes, "", ""));
+
+        List<Show> favs = db.getFavorites();
+        Log.d("Returned", favs.toString());
 
         if(!isNetworkAvailable()){
-            Toast.makeText(MainActivity.this, "There was an error trying to connect to the internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Could not connect to the internet!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        db.close();
-        super.onDestroy();
     }
 
     public boolean isNetworkAvailable() {
@@ -49,14 +51,19 @@ public class MainActivity extends AppCompatActivity {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    /*
-        This function is a test
-     */
-    public void displayFav(View v){
-
-        List<Show> favs = db.getFavorites();
-        TextView text = (TextView) findViewById(R.id.text);
-        text.setText(favs.toString());
+    private void search(JSONArray jayson) {
+        if (jayson != null && jayson.length() != 0) {
+            for (int i = 0; i < jayson.length(); i++) {
+                try {
+                    JSONObject ob = jayson.getJSONObject(i);
+                    JSONObject show = ob.getJSONObject("show");
+                    ArrayList<String> genres = new ArrayList<String>(Arrays.asList(show.getString("show").split("\\s*,\\s*")));
+                    Show current = new Show(show.getString("name"), genres, show.getString("schedule"), show.getString("image"));
+                } catch (JSONException e) {
+                    Toast.makeText(MainActivity.this, "That's not supposed to happen.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     /*
