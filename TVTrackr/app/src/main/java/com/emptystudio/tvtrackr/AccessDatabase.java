@@ -3,7 +3,9 @@ package com.emptystudio.tvtrackr;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -46,7 +48,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
                 "schedule TEXT, "+
                 "image TEXT);";
 
-        // create books table
+        // create favorites table
         db.execSQL(CREATE_TABLE);
         Log.d("onCreate", "CREATED");
     }
@@ -56,16 +58,21 @@ public class AccessDatabase extends SQLiteOpenHelper {
         Log.w(AccessDatabase.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS user_favorites");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITES);
         onCreate(db);
     }
 
-    public void addFavorite(Show show){
+    public int numberOfRows(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_FAVORITES);
+        return numRows;
+    }
+
+    public boolean addFavorite(Show show){
 
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        db.beginTransaction();
 
+        ContentValues values = new ContentValues();
         values.put(KEY_NAME, show.getName());
         values.put(KEY_GENRES, show.getGenres());
         values.put(KEY_SCHEDULE, show.getSchedule());
@@ -73,19 +80,27 @@ public class AccessDatabase extends SQLiteOpenHelper {
         // insert
         db.insert(TABLE_FAVORITES, null, values);
 
-        db.endTransaction();
-
+        return true;
     }
 
-    public void removeFavorite(Integer id)
+    public boolean removeFavorite(Integer id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.beginTransaction();
         db.delete(TABLE_FAVORITES,
-            "id = ? ",
-            new String[] { Integer.toString(id) });
-        db.endTransaction();
+                "id = ? ",
+                new String[]{Integer.toString(id)});
         db.close();
+
+        return true;
+    }
+
+    public boolean clearFavorites()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_FAVORITES);
+        db.close();
+
+        return true;
     }
 
     public List<Show> getFavorites(){
@@ -94,21 +109,20 @@ public class AccessDatabase extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_FAVORITES;
 
         SQLiteDatabase db = this.getReadableDatabase();
+
         Cursor cursor = db.rawQuery(query, null);
 
         Show show = null;
         if (cursor != null && cursor.moveToFirst()) {
 
-            Log.d("ENTERED", cursor.getString(1));
             do {
                 show = new Show();
-                //show.setId(Integer.parseInt(cursor.getString(0)));
                 show.setName(cursor.getString(1));
                 //show.setGenres((ArrayList<String>) Arrays.asList(cursor.getString(2).split("|")));
-                //show.setSchedule(cursor.getString(3));
-                //show.setImage(cursor.getString(4));
+                show.setGenres(Arrays.asList(cursor.getString(2)));
+                show.setSchedule(cursor.getString(3));
+                show.setImage(cursor.getString(4));
 
-                // Add book to books
                 favs.add(show);
             } while (cursor.moveToNext());
             cursor.close();

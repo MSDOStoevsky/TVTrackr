@@ -21,9 +21,19 @@
         android:layout_height="wrap_content"
         android:text="DEBUG"
         android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:nestedScrollingEnabled="false"
-        android:onClick="displayJSON" />
+        android:onClick="displayJSON"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VIEWFAV"
+        android:id="@+id/button2"
+        android:nestedScrollingEnabled="false"
+        android:onClick="displayFav"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
