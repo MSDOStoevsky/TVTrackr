@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Dylan on 9/24/2016.
@@ -11,13 +12,13 @@ import java.util.Iterator;
 public class Show {
 
     private String name;
-    private ArrayList<String> genres;
+    private List<String> genres;
     private String schedule;
     private String image;
 
     public Show(){}
 
-    public Show(String name, ArrayList<String> genres, String schedule, String image){
+    public Show(String name, List<String> genres, String schedule, String image){
         this.name = name;
         this.genres = genres;
         this.schedule = schedule;
@@ -50,7 +51,7 @@ public class Show {
         this.image = image;
     }
 
-    public void setGenres(ArrayList<String> genres){
+    public void setGenres(List<String> genres){
         this.genres = genres;
     }
 
@@ -60,7 +61,7 @@ public class Show {
 
     @Override
     public String toString(){
-        return this.name;
+        return "name="+this.name+"|genres="+this.genres+"|schedule="+this.schedule+"|image="+this.image;
     }
 
     /*
