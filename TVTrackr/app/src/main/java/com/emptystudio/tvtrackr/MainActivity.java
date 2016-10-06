@@ -6,8 +6,8 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -20,27 +20,30 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Show> search = new ArrayList<>();
+    private AccessDatabase db;
+    private ArrayList<Show> search = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AccessDatabase db = new AccessDatabase(this);
+        db = new AccessDatabase(this);
 
         /* database entry tests */
         ArrayList<String> generes = new ArrayList<>();
         generes.add(0, "Comedy");
-
-        db.addFavorite(new Show("Hey Arnold", generes, "", ""));
-
-        List<Show> favs = db.getFavorites();
-        Log.d("Returned", favs.toString());
+        db.addFavorite(new Show("Hey Arnold", generes, "something", "url"));
 
         if(!isNetworkAvailable()){
-            Toast.makeText(MainActivity.this, "Could not connect to the internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "There was an error trying to connect to the internet!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
     }
 
     public boolean isNetworkAvailable() {
@@ -64,6 +67,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    /*
+        This function is a test
+     */
+    public void displayFav(View v){
+
+        List<Show> favs = db.getFavorites();
+        TextView text = (TextView) findViewById(R.id.text);
+        text.setText(favs.toString());
     }
 
     /*
