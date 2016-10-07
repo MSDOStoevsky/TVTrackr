@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TVTrackr</string>
+<string name="app_name">TVTrackr</string>
+<string name="placeholder">e.g. The Wiggles</string>
 </resources>
