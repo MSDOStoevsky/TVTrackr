@@ -32,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText text_box;
     private Button search_button;
-    private Toolbar toolbar;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
     private AccessDatabase db;
     private int[] tabIcons = {
             R.drawable.ic_action_home,
@@ -61,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 }
         );*/
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
