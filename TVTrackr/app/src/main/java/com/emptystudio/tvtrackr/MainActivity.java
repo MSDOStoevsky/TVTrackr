@@ -3,24 +3,17 @@ package com.emptystudio.tvtrackr;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.TabLayout;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +27,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText text_box;
-    private Button search_button;
     private TabLayout tabLayout;
     private AccessDatabase db;
     private ArrayList<Show> search = new ArrayList<>();
@@ -52,16 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         db = new AccessDatabase(this);
 
-        //search_button = (Button) findViewById(R.id.search_button);
-        //text_box = (EditText) findViewById(R.id.text_box);
-
-        /*search_button.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View view) {
-                        displayShows(text_box.getText().toString());
-                    }
-                }
-        );*/
         /*List blah = new ArrayList<String>();
         blah.add("Educational");
         Show something = new Show("Video Game High School", blah, "idk", "idk");
@@ -111,46 +92,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*private void initFavTab(List fav_shows){**
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.fav_recycler);
-        //recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter = new DataAdapter(fav_shows);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            GestureDetector gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
-
-                @Override public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-            });
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                if(child != null && gestureDetector.onTouchEvent(e)) {
-                    int position = rv.getChildAdapterPosition(child);
-                    //Toast.makeText(getApplicationContext(), countries.get(position), Toast.LENGTH_SHORT).show();
-                }
-
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
-    }*/
-
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
@@ -189,11 +130,6 @@ public class MainActivity extends AppCompatActivity {
         public void addFragment(Fragment fragment) {
             mFragmentList.add(fragment);
         }
-
-        /*public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }*/
 
         @Override
         public CharSequence getPageTitle(int position) {
