@@ -7,15 +7,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dylan on 10/14/2016.
  */
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
-    private ArrayList<String> countries;
+    private List<Show> shows;
 
-    public DataAdapter(ArrayList<String> countries) {
-        this.countries = countries;
+    public DataAdapter(List<Show> shows) {
+        this.shows = shows;
     }
 
     @Override
@@ -27,20 +28,22 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
 
-        viewHolder.tv_country.setText(countries.get(i));
+        viewHolder.name.setText(shows.get(i).getName());
+        viewHolder.schedule.setText(shows.get(i).getSchedule());
     }
 
     @Override
     public int getItemCount() {
-        return countries.size();
+        return shows.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_country;
+        private TextView name;
+        private TextView schedule;
         public ViewHolder(View view) {
             super(view);
-
-            //tv_country = (TextView)view.findViewById(R.id.tv_country);
+            name = (TextView)view.findViewById(R.id.show_name);
+            schedule = (TextView)view.findViewById(R.id.show_schedule);
         }
     }
 

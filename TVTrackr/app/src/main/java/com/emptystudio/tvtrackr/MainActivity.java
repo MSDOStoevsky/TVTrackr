@@ -10,10 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.TabLayout;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private Button search_button;
     private TabLayout tabLayout;
     private AccessDatabase db;
+    private ArrayList<Show> search = new ArrayList<>();
     private int[] tabIcons = {
             R.drawable.ic_action_home,
             R.drawable.ic_action_favorite,
             R.drawable.ic_action_schedule
     };
-    private ArrayList<Show> search = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +62,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );*/
+        /*List blah = new ArrayList<String>();
+        blah.add("Educational");
+        Show something = new Show("Video Game High School", blah, "idk", "idk");
+        db.addFavorite(something);*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        setupViewPager(viewPager, db.getFavorites());
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -103,16 +111,59 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*private void initFavTab(List fav_shows){**
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.fav_recycler);
+        //recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView.Adapter adapter = new DataAdapter(fav_shows);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            GestureDetector gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
+
+                @Override public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+            });
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
+                if(child != null && gestureDetector.onTouchEvent(e)) {
+                    int position = rv.getChildAdapterPosition(child);
+                    //Toast.makeText(getApplicationContext(), countries.get(position), Toast.LENGTH_SHORT).show();
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+    }*/
+
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager, List<Show> fav_db) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FirstTab());
-        adapter.addFragment(new SecondTab());
+        //init db info
+        SecondTab tab = new SecondTab();
+        tab.setDataList(fav_db);
+        adapter.addFragment(tab);
         adapter.addFragment(new ThirdTab());
         viewPager.setAdapter(adapter);
     }

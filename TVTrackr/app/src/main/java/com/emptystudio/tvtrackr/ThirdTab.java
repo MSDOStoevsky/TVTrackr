@@ -12,9 +12,7 @@ import android.view.ViewGroup;
  */
 public class ThirdTab extends Fragment{
 
-    public ThirdTab() {
-        // Required empty public constructor
-    }
+    public ThirdTab() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
