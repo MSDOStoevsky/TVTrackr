@@ -12,9 +12,7 @@ import android.view.ViewGroup;
  */
 public class ThirdTab extends Fragment{
 
-    public ThirdTab() {
-        // Required empty public constructor
-    }
+    public ThirdTab() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +23,7 @@ public class ThirdTab extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_three, container, false);
+        return inflater.inflate(R.layout.schedule_tab, container, false);
     }
 
 }
