@@ -72,7 +72,7 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
 
     /*
         This is the function that is automatically called after doInBackground()
-        has finished executing. TThe implementation locates the TextView Object on the View,
+        has finished executing. The implementation locates the TextView Object on the View,
         and sets the text to the stringified JSON.
 
         Using the built in JSON libraries will allow the JSONArray to be
