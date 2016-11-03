@@ -1,6 +1,7 @@
 package com.emptystudio.tvtrackr;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+
+        Intent intent = new Intent(this, BackgroundService.class);
+        startService(intent);
 
         if (!isNetworkAvailable()) {
             Toast.makeText(MainActivity.this, "There was an error trying to connect to the internet!", Toast.LENGTH_SHORT).show();
@@ -139,11 +143,11 @@ public class MainActivity extends AppCompatActivity {
 
     //------ button functions ------//
 
-    public void displayShows(String showname){
+    public void displayShows(String showname) {
         new AccessWebsite(getBaseContext(), findViewById(R.id.root)).execute(showname);//calls the doInBackground
     }
 
-    public void displayFavorites(View v){
+    public void displayFavorites(View v) {
 
         List<Show> favs = db.getFavorites();
         TextView text = (TextView) findViewById(R.id.text);
@@ -154,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     //------ augmenters ------//
 
     public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         // if no network is available networkInfo will be null
         // otherwise check if we are connected
