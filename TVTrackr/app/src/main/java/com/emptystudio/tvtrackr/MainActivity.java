@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        // used to disply a recycler view OSMODSIJF;osafj;oasdfufdufadfasulgiafiguasffasfsadu
     }
 
 }
