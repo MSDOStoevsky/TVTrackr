@@ -42,7 +42,7 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
 
         try{
             InetAddress.getByName("api.tvmaze.com").isReachable(3);
-        }catch (UnknownHostException e){
+        } catch (UnknownHostException e){
             Log.e("AccessWebsite", "UnknownHostException");
         } catch (IOException e){
             Log.e("AccessWebsite", "IOException");
