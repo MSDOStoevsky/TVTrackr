@@ -21,4 +21,7 @@
     <string name="title_favorites">Favorites</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_home">Home</string>
+
+    <string name="search_results">SearchResultsActivity</string>
+    <string name="search_hint">Search TV shows</string>
 </resources>

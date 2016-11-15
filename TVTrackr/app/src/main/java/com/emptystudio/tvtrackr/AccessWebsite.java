@@ -79,8 +79,8 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
         broken up to display the proper information.
      */
     protected void onPostExecute(JSONArray result) {
+        //TextView text = (TextView) view.findViewById(R.id.text);
+        //text.setText(result.toString());
 
-        TextView text = (TextView) view.findViewById(R.id.text);
-        text.setText(result.toString());
     }
 }
