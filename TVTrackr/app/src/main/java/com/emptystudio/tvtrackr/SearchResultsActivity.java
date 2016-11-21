@@ -2,6 +2,8 @@ package com.emptystudio.tvtrackr;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,8 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +26,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class SearchResultsActivity extends AppCompatActivity {
-    private AsyncTask<String, Void, JSONArray> searchResults = null;
+    private JSONArray searchResults = null;
     private List<Show> shows = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
@@ -39,30 +47,36 @@ public class SearchResultsActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_results);
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.search_recycler_view);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter
-        mAdapter = new DataAdapter(shows);
+        mAdapter = new SearchDataAdapter(shows, this);
         mRecyclerView.setAdapter(mAdapter);
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            searchResults = doMySearch(query);
+
+            try {
+                searchResults = doMySearch(query).get();
+            } catch (InterruptedException e) {
+                Log.e("SearchResultsActivity", "InterruptedException");
+            } catch (ExecutionException e) {
+                Log.e("SearchResultsActivity", "ExecutionException");
+            }
         }
 
-        try {
-            search(searchResults.get());
-            //displayResults(shows);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        // Parse all the JSONObjects and turn them into Shows
+        search(searchResults);
+
+        if (shows.isEmpty()) {
+            TextView noResults = (TextView) findViewById(R.id.no_results);
+            noResults.setVisibility(View.VISIBLE);
         }
     }
 
@@ -79,35 +93,43 @@ public class SearchResultsActivity extends AppCompatActivity {
                 try {
                     JSONObject ob = jayson.getJSONObject(i);
                     JSONObject show = ob.getJSONObject("show");
-                    JSONArray genresArray = show.getJSONArray("genres");
-                    List<String> genres = new ArrayList<>();
-
-                    for (int j = 0; j < genresArray.length(); j++) {
-                        genres.add(genresArray.getString(j));
-                    }
+                    JSONObject schedule = show.getJSONObject("schedule");
 
                     String name = show.getString("name");
-                    String schedule = show.getString("schedule");
-                    String image = show.getJSONObject("image").getString("medium");
+                    String description = show.getString("summary");
+                    List<String> genres = parseJSONArray(show.getJSONArray("genres"));
+                    List<String> days = parseJSONArray(schedule.getJSONArray("days"));
+                    String airTime = schedule.getString("time");
+                    String imageURL = show.getJSONObject("image").getString("medium");
 
-                    Show current = new Show(name, genres, schedule, image);
+                    if (description.isEmpty()) {
+                        description = "<em>No description available.</em>";
+                    }
+
+                    Show current = new Show(name, description, genres, days, airTime, imageURL);
                     shows.add(current);
                 } catch (JSONException e) {
-                    Toast.makeText(SearchResultsActivity.this, "That's not supposed to happen.", Toast.LENGTH_SHORT).show();
+                    Log.e("SearchResultsActivity", "JSONException");
                 }
             }
         }
     }
-/*
-    public void displayResults(ArrayList<Show> results) {
-        if (results.isEmpty()) {
-            Toast.makeText(SearchResultsActivity.this, "There was an error when parsing the JSON array!", Toast.LENGTH_SHORT).show();
+
+    private List<String> parseJSONArray(JSONArray arr) {
+        List<String> ret = new ArrayList<>();
+
+        for (int i = 0; i < arr.length(); i++) {
+            try {
+                ret.add(arr.getString(i));
+            } catch (JSONException e) {
+                Log.e("SearchResultsActivity", "JSONException");
+            }
         }
 
-        try {
-            myText.setText(shows.toString());
-        } catch (Exception e) {
-
+        if (ret.isEmpty()) {
+            ret.add("<em>N/A</em>");
         }
-    }*/
+
+        return ret;
+    }
 }

@@ -25,4 +25,11 @@
     <string name="title_home">Home</string>
 
     <string name="search_results">SearchResultsActivity</string>
+    <string name="no_results">Sorry, your search didn\'t return any results.</string>
+
+    <string name="image_description">Show image thumbnail</string>
+
+    <string name="buttonText_follow">Follow</string>
+    <string name="buttonText_following">Following</string>
+    <string name="buttonText_unfollow">Unfollow</string>
 </resources>

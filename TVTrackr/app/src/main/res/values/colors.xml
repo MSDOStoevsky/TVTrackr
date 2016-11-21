@@ -6,4 +6,8 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+
+    <color name="buttonText_follow">#1A5100</color>
+    <color name="buttonText_following">#801D5A00</color>
+    <color name="buttonText_unfollow">#000000</color>
 </resources>
