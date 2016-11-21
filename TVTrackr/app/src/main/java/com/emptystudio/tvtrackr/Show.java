@@ -1,5 +1,8 @@
 package com.emptystudio.tvtrackr;
 
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,20 +12,24 @@ import java.util.List;
 /**
  * Created by Dylan on 9/24/2016.
  */
-public class Show {
+public class Show implements Serializable {
 
     private String name;
+    private String description;
     private List<String> genres;
-    private String schedule;
-    private String image;
+    private List<String> schedule;
+    private String airTime;
+    private String imageURL;
 
-    public Show(){}
+    public Show() {}
 
-    public Show(String name, List<String> genres, String schedule, String image){
+    public Show(String name, String description, List<String> genres, List<String> schedule, String airTime, String imageURL) {
         this.name = name;
+        this.description = description;
         this.genres = genres;
         this.schedule = schedule;
-        this.image = image;
+        this.airTime = airTime;
+        this.imageURL = imageURL;
     }
 
     //--- getters
@@ -30,38 +37,42 @@ public class Show {
         return name;
     }
 
+    public String getDescription() { return description; }
+
     public String getGenres(){
         return join(genres, "|");
     }
 
     public String getSchedule(){
-        return schedule;
+        return join(schedule, "|");
     }
 
-    public String getImage(){
-        return image;
-    }
+    public String getAirTime() { return airTime; }
+
+    public String getImageURL() { return imageURL; }
 
     //--- setters
     public void setName(String name){
         this.name = name;
     }
 
-    public void setImage(String image){
-        this.image = image;
-    }
+    public void setDescription(String description) { this.description = description; }
 
     public void setGenres(List<String> genres){
         this.genres = genres;
     }
 
-    public void setSchedule(String schedule){
+    public void setSchedule(List<String> schedule){
         this.schedule = schedule;
     }
 
+    public void setAirTime(String airTime) { this.airTime = airTime; }
+
+    public void setImageURL(String imageURL) { this.imageURL = imageURL; }
+
     @Override
     public String toString(){
-        return "name="+this.name+"|genres="+this.genres+"|schedule="+this.schedule+"|image="+this.image;
+        return "name="+this.name+"|description="+this.description+"|genres="+this.genres+"|schedule="+this.schedule+"|image="+this.imageURL;
     }
 
     /*
@@ -77,7 +88,11 @@ public class Show {
             }
             builder.append(delimiter);
         }
+
         return builder.toString();
     }
 
+    private boolean equals(Show show) {
+        return this.name.equals(show.getName());
+    }
 }

@@ -1,7 +1,9 @@
 package com.emptystudio.tvtrackr;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private AccessDatabase db;
-    private ArrayList<Show> search = new ArrayList<>();
+
     private int[] tabIcons = {
             R.drawable.ic_action_home,
             R.drawable.ic_action_favorite,
@@ -44,17 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
         db = new AccessDatabase(this);
 
-        /*List blah = new ArrayList<String>();
-        blah.add("Educational");
-        Show something = new Show("Video Game High School", blah, "idk", "idk");
-        db.addFavorite(something);*/
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager, db.getFavorites());
+        setupViewPager(viewPager, db.getAllFavorites());
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -77,7 +75,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate( R.menu.menu_main, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
@@ -148,8 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayFavorites(View v) {
-
-        List<Show> favs = db.getFavorites();
+        List<Show> favs = db.getAllFavorites();
         TextView text = (TextView) findViewById(R.id.text);
         text.setText(favs.toString());
     }
@@ -164,24 +170,4 @@ public class MainActivity extends AppCompatActivity {
         // otherwise check if we are connected
         return networkInfo != null && networkInfo.isConnected();
     }
-
-    /*
-        parses json array from AccessWebsite
-     */
-    private void search(JSONArray jayson) {
-        if (jayson != null && jayson.length() != 0) {
-            for (int i = 0; i < jayson.length(); i++) {
-                try {
-                    JSONObject ob = jayson.getJSONObject(i);
-                    JSONObject show = ob.getJSONObject("show");
-                    ArrayList<String> genres = new ArrayList<String>(Arrays.asList(show.getString("show").split("\\s*,\\s*")));
-                    Show current = new Show(show.getString("name"), genres, show.getString("schedule"), show.getString("image"));
-                } catch (JSONException e) {
-                    Toast.makeText(MainActivity.this, "That's not supposed to happen.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-        // used to disply a recycler view OSMODSIJF;osafj;oasdfufdufadfasulgiafiguasffasfsadu
-    }
-
 }

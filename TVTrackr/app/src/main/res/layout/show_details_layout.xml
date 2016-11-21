@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/show_details_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    android:scrollbars="vertical"
+    tools:context="com.emptystudio.tvtrackr.ShowDetailsActivity">
+
+    <ImageView
+        android:id="@+id/d_show_thumbnail"
+        android:contentDescription="@string/image_description"
+        android:layout_width="106dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="5dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/d_show_name"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/d_show_thumbnail"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/d_show_genres"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/d_show_name"
+        android:layout_toEndOf="@id/d_show_thumbnail"
+        android:layout_alignStart="@+id/d_show_name"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/d_show_schedule"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/d_show_genres"
+        android:layout_alignStart="@+id/d_show_name"
+        android:layout_toEndOf="@id/d_show_thumbnail"
+        android:textSize="12sp" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/d_show_thumbnail"
+        android:layout_alignBottom="@id/d_show_thumbnail">
+
+        <Button
+            android:id="@+id/follow_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textSize="13sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/d_show_description"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_gravity="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/d_show_thumbnail"
+        android:textSize="12sp" />
+</RelativeLayout>

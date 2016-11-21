@@ -42,7 +42,7 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
 
         try{
             InetAddress.getByName("api.tvmaze.com").isReachable(3);
-        }catch (UnknownHostException e){
+        } catch (UnknownHostException e){
             Log.e("AccessWebsite", "UnknownHostException");
         } catch (IOException e){
             Log.e("AccessWebsite", "IOException");
@@ -79,8 +79,8 @@ public class AccessWebsite extends AsyncTask<String, Void, JSONArray>{
         broken up to display the proper information.
      */
     protected void onPostExecute(JSONArray result) {
+        //TextView text = (TextView) view.findViewById(R.id.text);
+        //text.setText(result.toString());
 
-        TextView text = (TextView) view.findViewById(R.id.text);
-        text.setText(result.toString());
     }
 }

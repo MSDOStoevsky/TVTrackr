@@ -1,6 +1,8 @@
 <resources>
+
     <string name="app_name">TVTrackr</string>
     <string name="placeholder">e.g. The Wiggles</string>
+    <string name="search_hint">Search TV shows</string>
 
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
@@ -21,4 +23,13 @@
     <string name="title_favorites">Favorites</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_home">Home</string>
+
+    <string name="search_results">SearchResultsActivity</string>
+    <string name="no_results">Sorry, your search didn\'t return any results.</string>
+
+    <string name="image_description">Show image thumbnail</string>
+
+    <string name="buttonText_follow">Follow</string>
+    <string name="buttonText_following">Following</string>
+    <string name="buttonText_unfollow">Unfollow</string>
 </resources>

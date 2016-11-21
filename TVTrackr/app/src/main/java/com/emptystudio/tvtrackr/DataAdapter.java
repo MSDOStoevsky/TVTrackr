@@ -6,13 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Dylan on 10/14/2016.
  */
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
-    private List<Show> shows;
+    private List<Show> shows = new ArrayList<>();
 
     public DataAdapter(List<Show> shows) {
         this.shows = shows;
@@ -26,7 +27,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
-
         viewHolder.name.setText(shows.get(i).getName());
         viewHolder.schedule.setText(shows.get(i).getSchedule());
     }
@@ -39,6 +39,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView name;
         private TextView schedule;
+
         public ViewHolder(View view) {
             super(view);
             name = (TextView)view.findViewById(R.id.show_name);

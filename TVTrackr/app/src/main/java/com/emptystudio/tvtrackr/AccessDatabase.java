@@ -27,10 +27,12 @@ public class AccessDatabase extends SQLiteOpenHelper {
     // Columns
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
+    private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_GENRES = "genres";
     private static final String KEY_SCHEDULE = "schedule";
+    private static final String KEY_AIRTIME = "airtime";
     private static final String KEY_IMAGE = "image";
-    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_GENRES, KEY_SCHEDULE, KEY_IMAGE};
+    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_DESCRIPTION, KEY_GENRES, KEY_SCHEDULE, KEY_AIRTIME, KEY_IMAGE};
 
     public AccessDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,8 +45,10 @@ public class AccessDatabase extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE "+TABLE_FAVORITES+" ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, "+
+                "description TEXT, "+
                 "genres TEXT, "+
                 "schedule TEXT, "+
+                "airtime TEXT, "+
                 "image TEXT);";
 
         // create favorites table
@@ -73,11 +77,15 @@ public class AccessDatabase extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, show.getName());
+        values.put(KEY_DESCRIPTION, show.getDescription());
         values.put(KEY_GENRES, show.getGenres());
         values.put(KEY_SCHEDULE, show.getSchedule());
-        values.put(KEY_IMAGE, show.getImage());
+        values.put(KEY_AIRTIME, show.getAirTime());
+        values.put(KEY_IMAGE, show.getImageURL());
         // insert
         db.insert(TABLE_FAVORITES, null, values);
+
+        db.close();
 
         return true;
     }
@@ -102,30 +110,58 @@ public class AccessDatabase extends SQLiteOpenHelper {
         return true;
     }
 
-    public List<Show> getFavorites(){
-        List<Show> favs = new ArrayList<Show>();
-
-        String query = "SELECT * FROM " + TABLE_FAVORITES;
-
+    public Show getFavorite(Show show) {
+        Show retShow = null;
         SQLiteDatabase db = this.getReadableDatabase();
 
+        String query = "SELECT * FROM " + TABLE_FAVORITES + " WHERE " + KEY_NAME + " = ?";
+        Cursor c = db.rawQuery(query, new String[]{show.getName()});
+
+        if (c.moveToFirst()) {
+            retShow = new Show();
+            do {
+                retShow.setName(c.getString(c.getColumnIndex(KEY_NAME)));
+                retShow.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+                retShow.setGenres(Arrays.asList(c.getString(c.getColumnIndex(KEY_GENRES))));
+                retShow.setSchedule(Arrays.asList(c.getString(c.getColumnIndex(KEY_SCHEDULE))));
+                retShow.setAirTime(c.getString(c.getColumnIndex(KEY_AIRTIME)));
+                show.setImageURL(c.getString(c.getColumnIndex(KEY_IMAGE)));
+            } while (c.moveToNext());
+        }
+
+        c.close();
+        db.close();
+
+        return retShow;
+    }
+
+    public List<Show> getAllFavorites(){
+        List<Show> favs = new ArrayList<Show>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_FAVORITES;
         Cursor cursor = db.rawQuery(query, null);
 
-        Show show = null;
         if (cursor != null && cursor.moveToFirst()) {
+            Show show;
 
             do {
                 show = new Show();
-                show.setName(cursor.getString(1));
-                //show.setGenres((ArrayList<String>) Arrays.asList(cursor.getString(2).split("|")));
-                show.setGenres(Arrays.asList(cursor.getString(2)));
-                show.setSchedule(cursor.getString(3));
-                show.setImage(cursor.getString(4));
+                show.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+                show.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                show.setGenres(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_GENRES))));
+                show.setSchedule(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_SCHEDULE))));
+                show.setAirTime(cursor.getString(cursor.getColumnIndex(KEY_AIRTIME)));
+                show.setImageURL(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
 
                 favs.add(show);
             } while (cursor.moveToNext());
+
             cursor.close();
         }
+
+        db.close();
+
         return favs;
     }
 }
