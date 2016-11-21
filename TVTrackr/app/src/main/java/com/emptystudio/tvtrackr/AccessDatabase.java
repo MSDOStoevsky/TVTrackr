@@ -160,6 +160,8 @@ public class AccessDatabase extends SQLiteOpenHelper {
             cursor.close();
         }
 
+        db.close();
+
         return favs;
     }
 }
