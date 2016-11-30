@@ -6,30 +6,30 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class BackgroundService extends Service {
 
-    public BackgroundService() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
         AccessDatabase db = new AccessDatabase(this);
         Intent intent = new Intent(BackgroundService.this, PushNotification.class);
         AlarmManager man = (AlarmManager) getSystemService(ALARM_SERVICE);
         PendingIntent pend = PendingIntent.getService(BackgroundService.this, 0, intent, 0);
         Calendar cal = Calendar.getInstance();
-        ArrayList<Show> favs = (ArrayList) db.getFavorites();
+        List<Show> favs = db.getAllFavorites();
         for (Show s : favs) {
             try {
                 JSONObject temp = new JSONObject(s.getSchedule());
-                // temp get time and day probably
                 String time = temp.getString("time");
                 JSONArray days = temp.getJSONArray("days");
                 for (int i = 0; i < days.length(); i++) {
@@ -48,6 +48,14 @@ public class BackgroundService extends Service {
             }
 
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    public BackgroundService() {
     }
 
     @Override

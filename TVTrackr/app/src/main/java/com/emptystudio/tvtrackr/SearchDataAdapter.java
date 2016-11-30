@@ -17,25 +17,25 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Dylan on 10/14/2016.
+ * Created by Collin on 11/19/2016.
  */
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
-    private Context context;
+public class SearchDataAdapter extends RecyclerView.Adapter<SearchDataAdapter.SearchResultViewHolder> {
     private List<Show> shows = new ArrayList<>();
+    private Context context;
 
-    public DataAdapter(List<Show> shows, Context context) {
+    public SearchDataAdapter(List<Show> shows, Context context) {
         this.shows = shows;
         this.context = context;
     }
 
     @Override
-    public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favorite_card, viewGroup, false);
-        return new ViewHolder(view);
+    public SearchDataAdapter.SearchResultViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_result_card, viewGroup, false);
+        return new SearchResultViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(SearchDataAdapter.SearchResultViewHolder viewHolder, int i) {
         Bitmap bmp = null;
 
         try {
@@ -56,18 +56,19 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return shows.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class SearchResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView thumbnail;
         private TextView name;
         private TextView description;
 
-        public ViewHolder(View view) {
+        public SearchResultViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
 
-            thumbnail = (ImageView)view.findViewById(R.id.show_thumbnail);
-            name = (TextView)view.findViewById(R.id.show_name);
-            description = (TextView)view.findViewById(R.id.show_description);
+            // Cards only display image thumbnail, show title, and a portion of the description
+            thumbnail = (ImageView) view.findViewById(R.id.show_thumbnail);
+            name = (TextView )view.findViewById(R.id.show_name);
+            description = (TextView) view.findViewById(R.id.show_description);
         }
 
         // Clicking on a card will start a new activity which displays the selected show in

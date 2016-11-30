@@ -1,6 +1,7 @@
 package com.emptystudio.tvtrackr;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -18,9 +20,12 @@ import java.util.List;
  */
 public class SecondTab extends Fragment{
 
-    private List<Show> data_set = null;
+    private List<Show> data_set;
+    private Context context = getContext();
 
-    public SecondTab() {}
+    public SecondTab() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,8 +41,13 @@ public class SecondTab extends Fragment{
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter = new DataAdapter(data_set);
+        RecyclerView.Adapter adapter = new DataAdapter(data_set, context);
         recyclerView.setAdapter(adapter);
+
+        if (data_set.isEmpty()){
+            TextView noResults = (TextView) view.findViewById(R.id.fav_empty);
+            noResults.setVisibility(View.VISIBLE);
+        }
 
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
