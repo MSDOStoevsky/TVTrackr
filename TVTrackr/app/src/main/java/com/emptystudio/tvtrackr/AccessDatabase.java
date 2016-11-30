@@ -159,10 +159,9 @@ public class AccessDatabase extends SQLiteOpenHelper {
 
                 favs.add(show);
             } while (cursor.moveToNext());
-
-            cursor.close();
         }
 
+        cursor.close();
         db.close();
 
         return favs;
