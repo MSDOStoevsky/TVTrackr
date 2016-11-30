@@ -83,5 +83,4 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             context.startActivity(intent);
         }
     }
-
 }
