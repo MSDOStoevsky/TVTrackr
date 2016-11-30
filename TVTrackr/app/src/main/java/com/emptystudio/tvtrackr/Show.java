@@ -19,16 +19,18 @@ public class Show implements Serializable {
     private List<String> genres;
     private List<String> schedule;
     private String airTime;
+    private String status;
     private String imageURL;
 
     public Show() {}
 
-    public Show(String name, String description, List<String> genres, List<String> schedule, String airTime, String imageURL) {
+    public Show(String name, String description, List<String> genres, List<String> schedule, String airTime, String status, String imageURL) {
         this.name = name;
         this.description = description;
         this.genres = genres;
         this.schedule = schedule;
         this.airTime = airTime;
+        this.status = status;
         this.imageURL = imageURL;
     }
 
@@ -40,15 +42,18 @@ public class Show implements Serializable {
     public String getDescription() { return description; }
 
     public String getGenres(){
-        return join(genres, "|");
+        return join(genres, ", ");
     }
 
     public String getSchedule(){
-        return join(schedule, "|");
+        return join(schedule, ", ");
     }
 
     public String getAirTime() { return airTime; }
 
+    public String getStatus(){
+        return status;
+    }
     public String getImageURL() { return imageURL; }
 
     //--- setters
@@ -67,6 +72,8 @@ public class Show implements Serializable {
     }
 
     public void setAirTime(String airTime) { this.airTime = airTime; }
+
+    public void setStatus(String status) { this.airTime = status; }
 
     public void setImageURL(String imageURL) { this.imageURL = imageURL; }
 

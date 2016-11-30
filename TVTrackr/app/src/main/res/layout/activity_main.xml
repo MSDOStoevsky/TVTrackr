@@ -32,31 +32,4 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_below="@+id/view" />
 
-    <!--<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        android:id="@+id/search_button"
-        android:nestedScrollingEnabled="false"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/placeholder"
-        android:id="@+id/text_box"
-        android:layout_above="@+id/fav_button"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="VIEWFAV"
-        android:onClick="displayFavorites"
-        android:id="@+id/fav_button"
-        android:nestedScrollingEnabled="false"
-        android:layout_below="@+id/search_button"
-        android:layout_alignParentStart="true" />-->
-
 </RelativeLayout>

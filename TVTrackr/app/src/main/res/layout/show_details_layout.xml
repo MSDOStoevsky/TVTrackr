@@ -42,9 +42,9 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/d_show_schedule"
+        android:id="@+id/d_show_status"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,24 +53,39 @@
         android:layout_toEndOf="@id/d_show_thumbnail"
         android:textSize="12sp" />
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/d_show_schedule"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/d_show_status"
+        android:layout_alignStart="@+id/d_show_name"
+        android:layout_toEndOf="@id/d_show_thumbnail"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/follow_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@id/d_show_schedule"
+        android:layout_alignStart="@+id/d_show_name"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textSize="13sp" />
+    <!--<FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/d_show_thumbnail"
         android:layout_alignBottom="@id/d_show_thumbnail">
 
-        <Button
-            android:id="@+id/follow_button"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:textSize="13sp" />
-    </FrameLayout>
+
+    </FrameLayout>-->
 
     <TextView
         android:id="@+id/d_show_description"

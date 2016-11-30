@@ -100,13 +100,14 @@ public class SearchResultsActivity extends AppCompatActivity {
                     List<String> genres = parseJSONArray(show.getJSONArray("genres"));
                     List<String> days = parseJSONArray(schedule.getJSONArray("days"));
                     String airTime = schedule.getString("time");
+                    String status = show.getString("status");
                     String imageURL = show.getJSONObject("image").getString("medium");
 
                     if (description.isEmpty()) {
                         description = "<em>No description available.</em>";
                     }
 
-                    Show current = new Show(name, description, genres, days, airTime, imageURL);
+                    Show current = new Show(name, description, genres, days, airTime, status, imageURL);
                     shows.add(current);
                 } catch (JSONException e) {
                     Log.e("SearchResultsActivity", "JSONException");

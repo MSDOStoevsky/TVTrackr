@@ -31,8 +31,9 @@ public class AccessDatabase extends SQLiteOpenHelper {
     private static final String KEY_GENRES = "genres";
     private static final String KEY_SCHEDULE = "schedule";
     private static final String KEY_AIRTIME = "airtime";
+    private static final String KEY_STATUS = "status";
     private static final String KEY_IMAGE = "image";
-    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_DESCRIPTION, KEY_GENRES, KEY_SCHEDULE, KEY_AIRTIME, KEY_IMAGE};
+    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_DESCRIPTION, KEY_GENRES, KEY_SCHEDULE, KEY_AIRTIME, KEY_STATUS, KEY_IMAGE};
 
     public AccessDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,6 +50,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
                 "genres TEXT, "+
                 "schedule TEXT, "+
                 "airtime TEXT, "+
+                "status TEXT, "+
                 "image TEXT);";
 
         // create favorites table
@@ -81,6 +83,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
         values.put(KEY_GENRES, show.getGenres());
         values.put(KEY_SCHEDULE, show.getSchedule());
         values.put(KEY_AIRTIME, show.getAirTime());
+        values.put(KEY_STATUS, show.getStatus());
         values.put(KEY_IMAGE, show.getImageURL());
         // insert
         db.insert(TABLE_FAVORITES, null, values);

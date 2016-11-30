@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".SecondTab">
 
+    <TextView
+        android:id="@+id/fav_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You don't have any favorites :("
+        android:textSize="20dp"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"/>
+
     <!--List-esque container for CardView-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fav_recycler"

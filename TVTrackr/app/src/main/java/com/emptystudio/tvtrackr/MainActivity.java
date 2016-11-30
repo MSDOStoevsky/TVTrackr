@@ -67,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        //setupViewPager(viewPager, db.getAllFavorites());
+    }
+
+    @Override
     protected void onDestroy() {
         db.close();
         super.onDestroy();
@@ -147,19 +154,6 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
-    //------ button functions ------//
-
-    public void displayShows(String showname) {
-        new AccessWebsite(getBaseContext(), findViewById(R.id.root)).execute(showname);//calls the doInBackground
-    }
-
-    public void displayFavorites(View v) {
-        List<Show> favs = db.getAllFavorites();
-        TextView text = (TextView) findViewById(R.id.text);
-        text.setText(favs.toString());
-    }
-
 
     //------ augmenters ------//
 

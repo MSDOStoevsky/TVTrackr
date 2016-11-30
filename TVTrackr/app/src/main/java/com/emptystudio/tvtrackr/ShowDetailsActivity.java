@@ -21,7 +21,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
     AccessDatabase db;
     Show show;
     ImageView thumbnail;
-    TextView name, description, genres, schedule;
+    TextView name, description, genres, status, schedule;
     Button followButton;
 
     @Override
@@ -57,6 +57,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.d_show_name);
         description = (TextView) findViewById(R.id.d_show_description);
         genres = (TextView) findViewById(R.id.d_show_genres);
+        status = (TextView) findViewById(R.id.d_show_status);
         schedule = (TextView) findViewById(R.id.d_show_schedule);
         followButton = (Button) findViewById(R.id.follow_button);
     }
@@ -76,8 +77,10 @@ public class ShowDetailsActivity extends AppCompatActivity {
         name.setText(show.getName());
         description.setText(Html.fromHtml("<strong>Description: </strong>" + show.getDescription()));
         description.setMovementMethod(new ScrollingMovementMethod());
-        genres.setText(Html.fromHtml("<strong>Genres: </strong>" + show.getGenres().replaceAll("\\|", ", ")));
-        schedule.setText(Html.fromHtml("<strong>Airs: </strong>" + show.getSchedule().replaceAll("\\|", ", ")));
+        genres.setText(Html.fromHtml("<strong>Genres: </strong>" + show.getGenres()));
+        status.setText(Html.fromHtml("<strong>Status: </strong>" + show.getStatus()));
+        String time = (show.getAirTime().equals("") ? "?" : show.getAirTime());
+        schedule.setText(Html.fromHtml("<strong>Airs: </strong>" + show.getSchedule() + " at " + time));
     }
 
     private void updateButton(String state) throws IllegalArgumentException {
