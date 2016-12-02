@@ -34,6 +34,11 @@
             android:enabled="true"
             android:exported="false" />
 
+        <receiver
+            android:name=".PushNotification"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
         <activity
             android:name=".SearchResultsActivity"
             android:label="@string/search_results"
