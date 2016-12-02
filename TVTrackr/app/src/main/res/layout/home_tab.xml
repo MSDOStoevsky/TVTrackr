@@ -6,10 +6,15 @@
     tools:context=".FirstTab">
 
     <TextView
+        android:id="@+id/empty_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Featured Shows..."
+        android:text="Welcome to TVTrackr"
         android:textSize="40dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_centerInParent="true"/>
 
+    <!--
+        android:visibility="gone"-->
 </RelativeLayout>

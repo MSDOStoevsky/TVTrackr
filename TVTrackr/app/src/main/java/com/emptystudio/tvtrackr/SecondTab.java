@@ -54,7 +54,7 @@ public class SecondTab extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new DataAdapter(data_set, context);
+        adapter = new FavoritesDataAdapter(data_set, context);
         recyclerView.setAdapter(adapter);
 
         noResults = (TextView) view.findViewById(R.id.fav_empty);
@@ -77,7 +77,7 @@ public class SecondTab extends Fragment {
 
     public void updateFavorites() {
         setDataList(db.getAllFavorites());
-        ((DataAdapter) adapter).updateData(data_set);
+        ((FavoritesDataAdapter) adapter).updateData(data_set);
     }
 
     /****/

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+    android:title="@string/cat_head_1"
+    android:key="visual_settings">
+
+    <CheckBoxPreference
+        android:key="dark"
+        android:summary="@string/pref_dark_summary"
+        android:title="@string/pref_dark_title"
+        android:defaultValue="false" />
+    </PreferenceCategory>
+</PreferenceScreen>

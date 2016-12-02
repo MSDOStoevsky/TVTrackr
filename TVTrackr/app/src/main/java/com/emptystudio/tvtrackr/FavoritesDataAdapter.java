@@ -19,23 +19,23 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Dylan on 10/14/2016.
  */
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
+public class FavoritesDataAdapter extends RecyclerView.Adapter<FavoritesDataAdapter.ViewHolder> {
     private Context context;
     private List<Show> shows = new ArrayList<>();
 
-    public DataAdapter(List<Show> shows, Context context) {
+    public FavoritesDataAdapter(List<Show> shows, Context context) {
         this.shows = shows;
         this.context = context;
     }
 
     @Override
-    public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public FavoritesDataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favorite_card, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(FavoritesDataAdapter.ViewHolder viewHolder, int i) {
         Bitmap bmp = null;
 
         try {

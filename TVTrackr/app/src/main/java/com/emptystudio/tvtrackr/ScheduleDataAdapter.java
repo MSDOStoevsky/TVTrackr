@@ -29,9 +29,9 @@ public class ScheduleDataAdapter extends RecyclerView.Adapter<ScheduleDataAdapte
 
     @Override
     public void onBindViewHolder(ScheduleDataAdapter.ViewHolder holder, int i) {
-
-        holder.name.setText(shows.get(i).getName());
-        holder.schedule.setText(Html.fromHtml(shows.get(i).getAirTime()));
+        Show currShow = shows.get(i);
+        holder.name.setText(currShow.getName());
+        holder.schedule.setText(currShow.getSchedule() + " " + currShow.getAirTime());
     }
 
     @Override
@@ -39,22 +39,16 @@ public class ScheduleDataAdapter extends RecyclerView.Adapter<ScheduleDataAdapte
         return shows.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView name;
         private TextView schedule;
 
         public ViewHolder(View view) {
             super(view);
-            view.setOnClickListener(this);
 
             name = (TextView)view.findViewById(R.id.show_name);
             schedule = (TextView)view.findViewById(R.id.show_schedule);
         }
-
-        // Clicking on a card will start a new activity which displays the selected show in
-        // more detail as well as the follow button
-        @Override
-        public void onClick(View v) { }
     }
 
     public void updateData(List<Show> newShows) {
