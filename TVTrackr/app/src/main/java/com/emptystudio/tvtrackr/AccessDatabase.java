@@ -93,12 +93,12 @@ public class AccessDatabase extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean removeFavorite(Integer id)
+    public boolean removeFavorite(Show show)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_FAVORITES,
-                "id = ? ",
-                new String[]{Integer.toString(id)});
+                "name = ? ",
+                new String[]{show.getName()});
         db.close();
 
         return true;
@@ -128,7 +128,8 @@ public class AccessDatabase extends SQLiteOpenHelper {
                 retShow.setGenres(Arrays.asList(c.getString(c.getColumnIndex(KEY_GENRES))));
                 retShow.setSchedule(Arrays.asList(c.getString(c.getColumnIndex(KEY_SCHEDULE))));
                 retShow.setAirTime(c.getString(c.getColumnIndex(KEY_AIRTIME)));
-                show.setImageURL(c.getString(c.getColumnIndex(KEY_IMAGE)));
+                retShow.setStatus(c.getString(c.getColumnIndex(KEY_STATUS)));
+                retShow.setImageURL(c.getString(c.getColumnIndex(KEY_IMAGE)));
             } while (c.moveToNext());
         }
 
@@ -139,7 +140,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
     }
 
     public List<Show> getAllFavorites(){
-        List<Show> favs = new ArrayList<Show>();
+        List<Show> favs = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + TABLE_FAVORITES;
@@ -155,6 +156,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
                 show.setGenres(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_GENRES))));
                 show.setSchedule(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_SCHEDULE))));
                 show.setAirTime(cursor.getString(cursor.getColumnIndex(KEY_AIRTIME)));
+                show.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
                 show.setImageURL(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
 
                 favs.add(show);

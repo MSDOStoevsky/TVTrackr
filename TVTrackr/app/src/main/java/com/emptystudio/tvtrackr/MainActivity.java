@@ -61,13 +61,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        //setupViewPager(viewPager, db.getAllFavorites());
-    }
-
-    @Override
     protected void onDestroy() {
         db.close();
         super.onDestroy();

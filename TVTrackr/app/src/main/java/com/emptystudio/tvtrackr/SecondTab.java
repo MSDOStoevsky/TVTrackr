@@ -1,6 +1,7 @@
 package com.emptystudio.tvtrackr;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,18 +19,32 @@ import java.util.List;
 /**
  * Created by Dylan on 10/14/2016.
  */
-public class SecondTab extends Fragment{
+public class SecondTab extends Fragment {
 
     private List<Show> data_set;
-    private Context context = getContext();
+    private Context context;
+    private AccessDatabase db;
+
+    TextView noResults;
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
 
     public SecondTab() {
         // Required empty public constructor
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new AccessDatabase(context);
     }
 
     @Override
@@ -37,53 +52,40 @@ public class SecondTab extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.favorites_tab, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fav_recycler);
+        recyclerView = (RecyclerView) view.findViewById(R.id.fav_recycler);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter = new DataAdapter(data_set, context);
+
+        adapter = new DataAdapter(data_set, context);
         recyclerView.setAdapter(adapter);
 
-        if (data_set.isEmpty()){
-            TextView noResults = (TextView) view.findViewById(R.id.fav_empty);
-            noResults.setVisibility(View.VISIBLE);
-        }
+        noResults = (TextView) view.findViewById(R.id.fav_empty);
 
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
-
-                @Override public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-            });
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                if(child != null && gestureDetector.onTouchEvent(e)) {
-                    int position = rv.getChildAdapterPosition(child);
-                    //Toast.makeText(getApplicationContext(), countries.get(position), Toast.LENGTH_SHORT).show();
-                }
-
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateFavorites();
+
+        if (data_set.isEmpty()) {
+            noResults.setVisibility(View.VISIBLE);
+        }
+        else {
+            noResults.setVisibility(View.GONE);
+        }
+    }
+
+    public void updateFavorites() {
+        setDataList(db.getAllFavorites());
+        ((DataAdapter) adapter).updateData(data_set);
+    }
+
     /****/
-    public void setDataList(List<Show> list){
+    public void setDataList(List<Show> list) {
         data_set = list;
     }
 

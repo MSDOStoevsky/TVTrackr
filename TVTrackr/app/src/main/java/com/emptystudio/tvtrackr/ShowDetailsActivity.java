@@ -36,15 +36,20 @@ public class ShowDetailsActivity extends AppCompatActivity {
             followButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Can't figure out how to update the favorites tab in the
-                    // main activity once a show is added
                     db.addFavorite(show);
-                    updateButton("following");
+                    updateButton("unfollow");
                 }
             });
         }
         else {
-            updateButton("following");
+            updateButton("unfollow");
+            followButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db.removeFavorite(show);
+                    updateButton("follow");
+                }
+            });
         }
     }
 
@@ -86,10 +91,10 @@ public class ShowDetailsActivity extends AppCompatActivity {
                 followButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonText_follow));
                 followButton.setBackgroundResource(R.drawable.follow);
                 break;
-            case "following":
-                followButton.setText(R.string.buttonText_following);
-                followButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonText_following));
-                followButton.setBackgroundResource(R.drawable.following);
+            case "unfollow":
+                followButton.setText(R.string.buttonText_unfollow);
+                followButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonText_unfollow));
+                followButton.setBackgroundResource(R.drawable.unfollow);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid follow button state");
