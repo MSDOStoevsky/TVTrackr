@@ -1,3 +1,9 @@
+/**
+ * Elijah Pass
+ * 2016
+ * Pushes notifications.
+ */
+
 package com.emptystudio.tvtrackr;
 
 import android.app.NotificationManager;
