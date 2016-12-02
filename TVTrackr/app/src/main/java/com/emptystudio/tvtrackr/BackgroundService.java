@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Parcelable;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+
 public class BackgroundService extends Service {
 
     @Override
@@ -22,11 +25,19 @@ public class BackgroundService extends Service {
         super.onCreate();
 
         AccessDatabase db = new AccessDatabase(this);
-        Intent intent = new Intent(BackgroundService.this, PushNotification.class);
+        Intent intent = new Intent(this, PushNotification.class);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.camera).setContentTitle("My notification").setContentText("Hello World!");
+
+        intent.putExtra("not", mBuilder.build());
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
         AlarmManager man = (AlarmManager) getSystemService(ALARM_SERVICE);
-        PendingIntent pend = PendingIntent.getService(BackgroundService.this, 0, intent, 0);
+        PendingIntent pend = PendingIntent.getBroadcast(this, 0, intent, 0);
         Calendar cal = Calendar.getInstance();
-        List<Show> favs = db.getAllFavorites();
+        /*List<Show> favs = db.getAllFavorites();
         for (Show s : favs) {
             try {
                 JSONObject temp = new JSONObject(s.getSchedule());
@@ -47,7 +58,11 @@ public class BackgroundService extends Service {
                 Toast.makeText(BackgroundService.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-        }
+        }*/
+        cal.set(Calendar.HOUR_OF_DAY, 17);
+        cal.set(Calendar.MINUTE, 40);
+        cal.set(Calendar.SECOND, 10);
+        man.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pend);
     }
 
     @Override
