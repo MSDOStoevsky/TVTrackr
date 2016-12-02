@@ -38,7 +38,7 @@ public class BackgroundService extends Service {
                     Date da = t.parse(str);
                     cal.setTime(da);
                     Intent intent = new Intent(this, PushNotification.class);
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.camera).setContentTitle("Your show is on!").setContentText(s.getName());
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Your show is on!").setContentText(s.getName());
                     intent.putExtra("not", mBuilder.build());
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pend = PendingIntent.getBroadcast(this, 0, intent, 0);
