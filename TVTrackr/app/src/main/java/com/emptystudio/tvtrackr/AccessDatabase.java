@@ -180,7 +180,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM " + TABLE_FAVORITES
                 + " WHERE `status` = \"Running\" AND `schedule` = \""
-                + dayFormat.format(calendar.get(Calendar.DAY_OF_WEEK))
+                + dayFormat.format(calendar.getTime())
                 + "\" ORDER BY " + KEY_AIRTIME + " ASC";
         Cursor cursor = db.rawQuery(query, null);
 

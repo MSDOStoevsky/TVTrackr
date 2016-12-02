@@ -18,7 +18,10 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:textSize="40dp"
-            android:textStyle="bold"/>
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp" />
 
         <TextView
             android:id="@+id/today_empty"
@@ -27,6 +30,8 @@
             android:text="@string/today_empty"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:textSize="20dp"
             android:visibility="gone"
             android:textColor="@color/colorAccent"
@@ -53,8 +58,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:text="Featured Shows..."
+            android:layout_marginBottom="5dp"
+            android:text="Featured Shows"
             android:textSize="40dp"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:textStyle="bold"/>
 
         <TextView
@@ -64,6 +72,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="@string/featured_empty"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:textSize="20dp"
             android:textColor="@color/colorAccent"
             android:visibility="gone"
