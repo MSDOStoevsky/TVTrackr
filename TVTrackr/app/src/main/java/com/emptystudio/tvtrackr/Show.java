@@ -51,9 +51,10 @@ public class Show implements Serializable {
 
     public String getAirTime() { return airTime; }
 
-    public String getStatus(){
+    public String getStatus() {
         return status;
     }
+
     public String getImageURL() { return imageURL; }
 
     //--- setters
@@ -73,13 +74,14 @@ public class Show implements Serializable {
 
     public void setAirTime(String airTime) { this.airTime = airTime; }
 
-    public void setStatus(String status) { this.airTime = status; }
+    public void setStatus(String status) { this.status = status; }
 
     public void setImageURL(String imageURL) { this.imageURL = imageURL; }
 
     @Override
     public String toString(){
-        return "name="+this.name+"|description="+this.description+"|genres="+this.genres+"|schedule="+this.schedule+"|image="+this.imageURL;
+        return "name=" + this.name + "|description=" + this.description+"|genres=" + this.genres
+                +"|schedule="+this.schedule+"|time=" + this.airTime + "|status=" + this.status + "|image="+this.imageURL;
     }
 
     /*

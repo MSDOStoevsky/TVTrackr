@@ -129,7 +129,7 @@ public class AccessDatabase extends SQLiteOpenHelper {
                 retShow.setSchedule(Arrays.asList(c.getString(c.getColumnIndex(KEY_SCHEDULE))));
                 retShow.setAirTime(c.getString(c.getColumnIndex(KEY_AIRTIME)));
                 retShow.setStatus(c.getString(c.getColumnIndex(KEY_STATUS)));
-                show.setImageURL(c.getString(c.getColumnIndex(KEY_IMAGE)));
+                retShow.setImageURL(c.getString(c.getColumnIndex(KEY_IMAGE)));
             } while (c.moveToNext());
         }
 
