@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager, db.getAllFavorites());
+        setupViewPager(viewPager, db.getAllFavorites(), db.getWeekSchedule());
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -103,14 +103,17 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
-    private void setupViewPager(ViewPager viewPager, List<Show> fav_db) {
+    private void setupViewPager(ViewPager viewPager, List<Show> fav_db, List<Show> schedule_db) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FirstTab());
-        //init db info
-        SecondTab tab = new SecondTab();
-        tab.setDataList(fav_db);
-        adapter.addFragment(tab);
-        adapter.addFragment(new ThirdTab());
+
+        SecondTab tab_2 = new SecondTab();
+        tab_2.setDataList(fav_db);
+        adapter.addFragment(tab_2);
+
+        ThirdTab tab_3 = new ThirdTab();
+        tab_3.setDataList(schedule_db);
+        adapter.addFragment(tab_3);
         viewPager.setAdapter(adapter);
     }
 
