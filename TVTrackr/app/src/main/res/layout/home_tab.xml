@@ -15,6 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_today"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:textSize="40dp"
             android:textStyle="bold"/>
 
@@ -23,6 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/today_empty"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:textSize="20dp"
             android:visibility="gone"
             android:textColor="@color/colorAccent"
@@ -39,12 +43,16 @@
             android:layout_height="1dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@android:color/darker_gray"/>
 
         <TextView
             android:id="@+id/featured_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="Featured Shows..."
             android:textSize="40dp"
             android:textStyle="bold"/>
@@ -53,6 +61,8 @@
             android:id="@+id/featured_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="@string/featured_empty"
             android:textSize="20dp"
             android:textColor="@color/colorAccent"
