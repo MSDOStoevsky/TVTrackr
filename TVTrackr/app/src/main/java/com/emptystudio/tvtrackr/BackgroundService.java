@@ -23,21 +23,10 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
         AccessDatabase db = new AccessDatabase(this);
-        Intent intent = new Intent(this, PushNotification.class);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.camera).setContentTitle("My notification").setContentText("Hello World!");
-
-        intent.putExtra("not", mBuilder.build());
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-
         AlarmManager man = (AlarmManager) getSystemService(ALARM_SERVICE);
-        PendingIntent pend = PendingIntent.getBroadcast(this, 0, intent, 0);
         Calendar cal = Calendar.getInstance();
-        /*List<Show> favs = db.getAllFavorites();
+        List<Show> favs = db.getAllFavorites();
         for (Show s : favs) {
             try {
                 JSONObject temp = new JSONObject(s.getSchedule());
@@ -49,20 +38,21 @@ public class BackgroundService extends Service {
                     try {
                         Date da = t.parse(str);
                         cal.setTime(da);
+                        Intent intent = new Intent(this, PushNotification.class);
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.camera).setContentTitle("Your show is on!").setContentText(s.getName());
+                        intent.putExtra("not", mBuilder.build());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        PendingIntent pend = PendingIntent.getBroadcast(this, 0, intent, 0);
+                        man.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pend);
                     } catch (ParseException e ) {
 
                     }
-                    man.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pend);
                 }
             } catch (JSONException e) {
                 Toast.makeText(BackgroundService.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-        }*/
-        cal.set(Calendar.HOUR_OF_DAY, 17);
-        cal.set(Calendar.MINUTE, 40);
-        cal.set(Calendar.SECOND, 10);
-        man.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pend);
+        }
     }
 
     @Override
