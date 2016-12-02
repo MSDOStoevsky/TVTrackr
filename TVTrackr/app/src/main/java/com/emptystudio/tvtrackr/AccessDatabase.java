@@ -8,9 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Dylan on 9/24/2016.
@@ -167,6 +170,41 @@ public class AccessDatabase extends SQLiteOpenHelper {
         db.close();
 
         return favs;
+    }
+
+    public List<Show> getTodaysSchedule(){
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
+        List<Show> today = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_FAVORITES
+                + " WHERE `status` = \"Running\" AND `schedule` = \""
+                + dayFormat.format(calendar.get(Calendar.DAY_OF_WEEK))
+                + "\" ORDER BY " + KEY_AIRTIME + " ASC";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            Show show;
+
+            do {
+                show = new Show();
+                show.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+                show.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                show.setGenres(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_GENRES))));
+                show.setSchedule(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_SCHEDULE))));
+                show.setAirTime(cursor.getString(cursor.getColumnIndex(KEY_AIRTIME)));
+                show.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
+                show.setImageURL(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
+
+                today.add(show);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return today;
     }
 
     public List<Show> getAllFavorites(){

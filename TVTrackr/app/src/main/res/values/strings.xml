@@ -23,6 +23,10 @@
     <string name="pref_dark_summary">Changes color scheme to a black and grey pallete</string>
     <string name="pref_dark_title">Enable Dark Theme</string>
 
+    <string name="home_today">Shows Airing Today</string>
+    <string name="today_empty">You don\'t have any shows airing today.</string>
+    <string name="featured_empty">There are currently no featured shows.</string>
+
     <string name="title_favorites">Favorites</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_home">Home</string>

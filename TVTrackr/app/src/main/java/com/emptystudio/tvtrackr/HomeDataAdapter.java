@@ -10,27 +10,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Dylan on 10/14/2016.
+ * Created by Dylan on 12/2/2016.
  */
-public class ScheduleDataAdapter extends RecyclerView.Adapter<ScheduleDataAdapter.ViewHolder> {
+public class HomeDataAdapter extends RecyclerView.Adapter<HomeDataAdapter.ViewHolder> {
 
     private List<Show> shows = new ArrayList<>();
 
-    public ScheduleDataAdapter(List<Show> shows) {
+    public HomeDataAdapter(List<Show> shows) {
         this.shows = shows;
     }
 
     @Override
-    public ScheduleDataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_card, viewGroup, false);
+    public HomeDataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_card, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ScheduleDataAdapter.ViewHolder holder, int i) {
+    public void onBindViewHolder(ViewHolder holder, int i) {
         Show currShow = shows.get(i);
         holder.name.setText(currShow.getName());
-        holder.schedule.setText(currShow.getSchedule() + " " + currShow.getAirTime());
+        holder.schedule.setText("Coming up at " + currShow.getAirTime());
     }
 
     @Override

@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager, List<Show> fav_db, List<Show> schedule_db) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        FirstTab tab_1 = new FirstTab();
         adapter.addFragment(new FirstTab());
 
         SecondTab tab_2 = new SecondTab();
