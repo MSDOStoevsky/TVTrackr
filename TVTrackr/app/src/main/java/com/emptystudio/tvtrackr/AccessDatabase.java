@@ -139,6 +139,36 @@ public class AccessDatabase extends SQLiteOpenHelper {
         return retShow;
     }
 
+    public List<Show> getWeekSchedule(){
+        List<Show> favs = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_FAVORITES + " WHERE `status` = \"Running\" ORDER BY " + KEY_AIRTIME;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            Show show;
+
+            do {
+                show = new Show();
+                show.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+                show.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                show.setGenres(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_GENRES))));
+                show.setSchedule(Arrays.asList(cursor.getString(cursor.getColumnIndex(KEY_SCHEDULE))));
+                show.setAirTime(cursor.getString(cursor.getColumnIndex(KEY_AIRTIME)));
+                show.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
+                show.setImageURL(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
+
+                favs.add(show);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return favs;
+    }
+
     public List<Show> getAllFavorites(){
         List<Show> favs = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
